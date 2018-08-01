@@ -1,0 +1,6 @@
+python/.idea/*
+java/.idea/*
+.idea/*
+python/venv*
+*.class
+*.pyc

@@ -3,7 +3,7 @@ def rotl8(x, shift):
     return 0xff & (((x) << (shift)) | ((x) >> (8 - (shift))))
 
 
-def getSbox():
+def get_sbox():
     sbox = [None] * 256
     p = q = 1
     first_time = True

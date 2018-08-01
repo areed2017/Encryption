@@ -31,6 +31,11 @@ public class Main {
                     break;
                 case "-c":
                     break;
+                case "-ed":
+                    decrypting = true;
+                    encrypting = true;
+                    text = args[i+1];
+                    break;
                 case "-e":
                     encrypting = true;
                     text = args[i+1];
@@ -42,13 +47,19 @@ public class Main {
                 case "-k":
                     key = args[i+1];
                     break;
+
                 default:
                     out.println("Unknown argument " + args[i] + " " + args[i+1] );
             }
         }
 
         if( type.equalsIgnoreCase("aes") ){
-            if( encrypting )
+            if( encrypting ){
+                String encrypted =  AES.encrypt(text, key);
+                out.println( "Encrypted: " + encrypted);
+                out.println( "Decrypted: " + AES.decrypt(encrypted, key));
+            }
+            else if( encrypting )
                 out.println( "Encrypted: " + AES.encrypt(text, key) );
             else if (decrypting)
                 out.println( "Decrypted: " + AES.decrypt(text, key) );
