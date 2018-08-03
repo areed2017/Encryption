@@ -1,11 +1,20 @@
 package com.company;
 
-import com.company.encryption.aes.AES;
-import com.company.encryption.rsa.RSA;
+import com.company.hashing.MD5;
+import com.company.encryption.AES;
+import com.company.encryption.RSA;
+import com.company.hashing.SHA1;
+import com.company.hashing.SHA256;
+
+import java.util.Scanner;
 
 import static java.lang.System.out;
 
 public class Main {
+
+    private static final String ENCRYPTING = "Encrypted: ";
+    private static final String DECRYPTING = "Decrypted: ";
+    private static final String HASHING = "Hashed: " ;
 
     private static String type;
 
@@ -13,9 +22,9 @@ public class Main {
 
     private static String key;
 
-    private static boolean encrypting = false;
+    private static boolean isEncrypting = false;
 
-    private static boolean decrypting = false;
+    private static boolean isDecrypting = false;
 
     static{
         RSA.setRSAPublicKeyFile("public_key.der");
@@ -32,50 +41,77 @@ public class Main {
                 case "-c":
                     break;
                 case "-ed":
-                    decrypting = true;
-                    encrypting = true;
+                    isDecrypting = true;
+                    isEncrypting = true;
                     text = args[i+1];
                     break;
                 case "-e":
-                    encrypting = true;
+                    isEncrypting = true;
                     text = args[i+1];
                     break;
                 case "-d":
-                    decrypting = true;
+                    isDecrypting = true;
                     text = args[i+1];
                     break;
                 case "-k":
                     key = args[i+1];
                     break;
-
+                case "-h":
+                    text = args[i+1];
+                    break;
                 default:
                     out.println("Unknown argument " + args[i] + " " + args[i+1] );
             }
         }
 
-        if( type.equalsIgnoreCase("aes") ){
-            if( encrypting ){
-                String encrypted =  AES.encrypt(text, key);
-                out.println( "Encrypted: " + encrypted);
-                out.println( "Decrypted: " + AES.decrypt(encrypted, key));
-            }
-            else if( encrypting )
-                out.println( "Encrypted: " + AES.encrypt(text, key) );
-            else if (decrypting)
-                out.println( "Decrypted: " + AES.decrypt(text, key) );
-            else
-                out.println( "Please specify if you want to decrypt or encrypt with the tag '-e' or '-d' followed by the string you want to act on ");
+        type = type.toLowerCase();
+        switch (type){
+            case "aes":
+                if( isEncrypting && isDecrypting){
+                    String encrypted =  AES.encrypt(text, key);
+                    out.println( ENCRYPTING + encrypted);
+                    out.println( DECRYPTING + AES.decrypt(encrypted, key));
+                }
+                else if(isEncrypting)
+                    out.println( ENCRYPTING + AES.encrypt(text, key) );
+                else if (isDecrypting)
+                    out.println( DECRYPTING + AES.decrypt(text, key) );
+                else
+                    out.println( "Please specify if you want to decrypt or encrypt with the tag '-e' or '-d' followed by the string you want to act on ");
+                break;
+
+            case "rsa":
+                if(isEncrypting)
+                    out.println( ENCRYPTING + RSA.encrypt(text) );
+                else if (isDecrypting)
+                    out.println( DECRYPTING + RSA.decrypt(text) );
+                else
+                    out.println( "Please specify if you want to decrypt or encrypt with the tag '-e' or '-d' followed by the string you want to act on ");
+                break;
+            case "md2":
+                out.println(HASHING + new MD5().hashToString(text));
+                break;
+            case "md5":
+                out.println(HASHING + new MD5().hashToString(text));
+                break;
+            case "sha1":
+                out.println(HASHING + new SHA1().hashToString(text));
+                break;
+            case "sha256":
+                out.println(HASHING + new SHA256().hashToString(text));
+                break;
+            case "sha384":
+                out.println(HASHING + new SHA256().hashToString(text));
+                break;
+            case "sha512":
+                out.println(HASHING + new SHA256().hashToString(text));
+                break;
+            default:
+                out.println("Please specify what type you would like to use with the tag '-t' followed by the type");
         }
-        else if( type.equalsIgnoreCase("rsa") ){
-            if( encrypting )
-                out.println( "Encrypted: " + RSA.encrypt(text) );
-            else if (decrypting)
-                out.println( "Decrypted: " + RSA.decrypt(text) );
-            else
-                out.println( "Please specify if you want to decrypt or encrypt with the tag '-e' or '-d' followed by the string you want to act on ");
-        }
-        else{
-            out.println("Please specify what encryption type you would like to use with the tag '-t' followed by 'AES' or 'RSA'");
-        }
+
+
+        new Scanner(System.in).next();
+
     }
 }
