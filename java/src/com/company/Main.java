@@ -1,10 +1,9 @@
 package com.company;
 
-import com.company.hashing.MD5;
+import com.company.encryption.RandomKey;
+import com.company.hashing.*;
 import com.company.encryption.AES;
 import com.company.encryption.RSA;
-import com.company.hashing.SHA1;
-import com.company.hashing.SHA256;
 
 import java.util.Scanner;
 
@@ -16,7 +15,7 @@ public class Main {
     private static final String DECRYPTING = "Decrypted: ";
     private static final String HASHING = "Hashed: " ;
 
-    private static String type;
+    private static String type ="";
 
     private static String text;
 
@@ -26,14 +25,17 @@ public class Main {
 
     private static boolean isDecrypting = false;
 
+    private static boolean isSystemOut = false;
+
     static{
         RSA.setRSAPublicKeyFile("public_key.der");
         RSA.setRSAPrivateKeyFile("private_key.der");
     }
 
     public static void main(String[] args) {
-
-        for ( int i = 0; i < args.length; i+=2){
+        int i;
+        StringBuilder output = new StringBuilder();
+        for (i = 0; i < args.length; i+=2){
             switch( args[i] ){
                 case "-t":
                     type = args[i+1];
@@ -59,8 +61,21 @@ public class Main {
                 case "-h":
                     text = args[i+1];
                     break;
+                case "-o":
+                    isSystemOut = true;
+                    i--;
+                    break;
+                case "-r":
+                    int length = Integer.parseInt(args[i+1]);
+                    for(int j = length; j < 40; j++)
+                    {
+                        String value = RandomKey.randomKeyAsString(j);
+                        output.append("Random: ").append(value).append("\n");
+                    }
+                    type = "random";
+                    break;
                 default:
-                    out.println("Unknown argument " + args[i] + " " + args[i+1] );
+                    output.append("Unknown argument ").append(args[i]).append(" ").append(args[i + 1]).append("\n");
             }
         }
 
@@ -69,49 +84,60 @@ public class Main {
             case "aes":
                 if( isEncrypting && isDecrypting){
                     String encrypted =  AES.encrypt(text, key);
-                    out.println( ENCRYPTING + encrypted);
-                    out.println( DECRYPTING + AES.decrypt(encrypted, key));
+                    output.append(ENCRYPTING).append(encrypted).append("\n");
+                    output.append(DECRYPTING).append(AES.decrypt(encrypted, key)).append("\n");
                 }
                 else if(isEncrypting)
-                    out.println( ENCRYPTING + AES.encrypt(text, key) );
+                    output.append(ENCRYPTING).append(AES.encrypt(text, key)).append("\n");
                 else if (isDecrypting)
-                    out.println( DECRYPTING + AES.decrypt(text, key) );
+                    output.append(DECRYPTING).append(AES.decrypt(text, key)).append("\n");
                 else
-                    out.println( "Please specify if you want to decrypt or encrypt with the tag '-e' or '-d' followed by the string you want to act on ");
+                    output.append("Please specify if you want to decrypt or encrypt with the tag '-e' or '-d' followed by the string you want to act on \n");
                 break;
 
             case "rsa":
                 if(isEncrypting)
-                    out.println( ENCRYPTING + RSA.encrypt(text) );
+                    output.append(ENCRYPTING).append(RSA.encrypt(text)).append("\n");
                 else if (isDecrypting)
-                    out.println( DECRYPTING + RSA.decrypt(text) );
+                    output.append(DECRYPTING).append(RSA.decrypt(text)).append("\n");
                 else
-                    out.println( "Please specify if you want to decrypt or encrypt with the tag '-e' or '-d' followed by the string you want to act on ");
+                    output.append("Please specify if you want to decrypt or encrypt with the tag '-e' or '-d' followed by the string you want to act on \n");
                 break;
             case "md2":
-                out.println(HASHING + new MD5().hashToString(text));
+                output.append(HASHING).append(new MD5().hashToString(text)).append("\n");
                 break;
             case "md5":
-                out.println(HASHING + new MD5().hashToString(text));
+                output.append(HASHING).append(new MD5().hashToString(text)).append("\n");
+                break;
+            case "sha":
+                output.append(HASHING.replace(":", "Secure Hash Algorithm 1 (SHA1):")).append(new SHA1().hashToString(text)).append("\n");
+                output.append(HASHING.replace(":", "Secure Hash Algorithm 256 (SHA256):")).append(new SHA256().hashToString(text)).append("\n");
+                output.append(HASHING.replace(":", "Secure Hash Algorithm 384 (SHA384):")).append(new SHA384().hashToString(text)).append("\n");
+                output.append(HASHING.replace(":", "Secure Hash Algorithm 512 (SHA512):")).append(new SHA512().hashToString(text)).append("\n");
                 break;
             case "sha1":
-                out.println(HASHING + new SHA1().hashToString(text));
+                output.append(HASHING).append(new SHA1().hashToString(text)).append("\n");
                 break;
             case "sha256":
-                out.println(HASHING + new SHA256().hashToString(text));
+                output.append(HASHING).append(new SHA256().hashToString(text)).append("\n");
                 break;
             case "sha384":
-                out.println(HASHING + new SHA256().hashToString(text));
+                output.append(HASHING).append(new SHA384().hashToString(text)).append("\n");
                 break;
             case "sha512":
-                out.println(HASHING + new SHA256().hashToString(text));
+                output.append(HASHING).append(new SHA512().hashToString(text)).append("\n");
+                break;
+            case "random":
                 break;
             default:
-                out.println("Please specify what type you would like to use with the tag '-t' followed by the type");
+                output.append("Please specify what type you would like to use with the tag '-t' followed by the type\n");
         }
 
+        if( isSystemOut )
+            out.print(output);
 
-        new Scanner(System.in).next();
+        out.print("Exit...");
+        new Scanner(System.in).nextLine();
 
     }
 }
