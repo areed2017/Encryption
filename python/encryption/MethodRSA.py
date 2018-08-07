@@ -1,37 +1,58 @@
-from random import random
+import base64
+
+from Crypto.Cipher import PKCS1_v1_5
+from Crypto.PublicKey import RSA
 
 
-class Key:
+class MethodRSA:
 
-    def __init__(self):
-        self.modulus = 0
-        self.exponent = 1
+    PRIVATE_KEY = "private_key.pem"
+    PUBLIC_KEY = "public_key.pem"
 
+    def __init__(self, path_to_keys=""):
+        self.path_to_keys = path_to_keys
+        self.public_key = RSA.importKey(open(self.path_to_keys + self.PUBLIC_KEY).read())
+        self.private_key = RSA.importKey(open(self.path_to_keys + self.PRIVATE_KEY).read())
 
-class KeyFactory:
+    def encrypt(self, text):
+        cipher = PKCS1_v1_5.new(self.public_key)
+        cipher_text = cipher.encrypt(text.encode('utf-8'))
+        return base64.b64encode(cipher_text)
 
-    PRINT = True
+    def decrypt(self, text):
+        cipher = PKCS1_v1_5.new(self.private_key)
+        cipher_text = base64.b64decode(text)
+        return cipher.decrypt(cipher_text, None)
 
-    def __init__(self):
-        self.public = None
-        self.private = None
+    def make_keys(self):
+        # paths
+        private_key_pem = self.path_to_keys + self.PRIVATE_KEY
+        public_key_pem = self.path_to_keys + self.PUBLIC_KEY
+        private_key_der = self.path_to_keys + self.PRIVATE_KEY.replace("pem", "der")
+        public_key_der = self.path_to_keys + self.PUBLIC_KEY.replace("pem", "der")
 
-    def get_instance(self, algorithm):
-        if algorithm is not "rsa":
-            return "Algorithm is not supported"
+        # commands
+        print("openssl genrsa -out " + private_key_pem + " 2048")
+        print("openssl pkcs8 -topk8 -inform PEM -outform DER -in " + private_key_pem + " -out " + private_key_der + " -nocrypt")
+        print("openssl rsa -in " + private_key_pem + " -pubout -outform DER -out " + public_key_der)
+        print("openssl rsa -in " + private_key_pem + " -pubout -outform PEM -out " + public_key_pem)
 
-        p = 2  # random.randint(1, 1561115651)
-        q = 7  # random.randint(1, 1561115651)
-        if self.PRINT:
-            print("First Pick Two Random Numbers, \n\tp = " + str(p) + "\n\tq = " + str(q))
+    @staticmethod
+    def test_all():
+        text = raw_input("Text to encrypt: ")  # "This is a confidential string"
 
-        n = p * q
-        if self.PRINT:
-            print("next multiply p and q, \n\tn = p * q = " + str(n))
+        rsa = MethodRSA("")
+        rsa.make_keys()
 
-        l = (q-1) * (p-1)
-        if self.PRINT:
-            print("next find l, \n\tl = (q - 1) * (p - 1) = " + str(l))
+        print\
+            (
+                "\n\nGiven;"
+                "\n\t-public key \n\t\tmodule=" + str(rsa.public_key.n) + "\n\t\texponent=" + str(rsa.public_key.e) +
+                "\n\t-private key\n\t\tmodule=" + str(rsa.private_key.n) + "\n\t\texponent=" + str(rsa.private_key.d) +
+                "\n\t-Text=" + str(text)
+            )
 
-            #https://hackernoon.com/how-does-rsa-work-f44918df914b
-
+        encrypted = rsa.encrypt(text)
+        print("\n\nEncrypted = " + encrypted)
+        decrypted = rsa.decrypt(encrypted)
+        print("\n\nDecrypted = " + decrypted)

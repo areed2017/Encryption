@@ -2,10 +2,11 @@ import hashlib
 from sys import argv
 
 from encryption.MethodAES import MethodAES
-from encryption.MethodRSA import KeyFactory
+from encryption.MethodRSA import MethodRSA
 
 from hash.MethodMessageDigest import MethodMessageDigest
 from hash.MethodSHA import MethodSecureHashAlgorithm
+
 
 for arg in argv:
     if arg.lower() == "-aes":
@@ -15,4 +16,4 @@ for arg in argv:
     elif arg.lower() == "-sha":
         MethodSecureHashAlgorithm("").test_all()
     elif arg.lower() == "-rsa":
-        KeyFactory().get_instance("rsa")
+        MethodRSA().test_all()
