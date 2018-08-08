@@ -6,25 +6,25 @@ from Crypto.Hash import MD5
 
 class MethodMessageDigest:
 
-    def __init__(self, str):
-        self.str = str
+    def __init__(self):
+        pass
 
-    def md5(self):
-        return hashlib.md5(self.str.encode("utf-8")).digest()
+    @staticmethod
+    def md5(text):
+        return hashlib.md5(text.encode("utf-8")).digest()
 
-    def base64_md5(self):
-        return base64.b64encode(self.md5())
+    @staticmethod
+    def base64_md5(text):
+        return base64.b64encode(MethodMessageDigest.md5(text))
 
-    def test_all(self):
+    @staticmethod
+    def test_all(self, text):
         line_break = "\n=============================MODE=============================\n"
         text = raw_input("Text to hash: ")  # "This is a confidential string"
-        self.str = text
-
-        print (hashlib.algorithms)
 
         print("Given;\n\t-Text\t\t\t\t'" + str(text) + "'")
 
         print(line_break.replace("MODE", "Message Digest 5 (MD5)"))
-        print("Before Base64 Encoding: " + self.md5())
-        print("after Base64 Encoding: " + self.base64_md5())
+        print("Before Base64 Encoding: " + MethodMessageDigest.md5(text))
+        print("after Base64 Encoding: " + MethodMessageDigest.base64_md5(text))
 
