@@ -164,14 +164,30 @@ Cryptography
     
 ## Data Encryption Standard 3( DES3 )
 > #### Brief Introduction
+>       The reason it helps to have some background on DES encryption is because one of 
+>           the standard encryption this day in age is 3DES. essentially it is the same 
+>           thing as des ecept for it is encrypted 3 times with a different key each 
+>           time. making the 56 bit key turn into a 168-bit key equivelent.
 >  
 > #### Speeds
-> > ![Mixed Columns](imgs/DES3--Encryption-Speeds.png)
-> > ![Mixed Columns](imgs/DES3--Decryption-Speeds.png)
+> > ![Mixed Columns](imgs/DES-3-Encryption-Speeds.png)
+> > ![Mixed Columns](imgs/DES-3-Decryption-Speeds.png)
 
 ## Blowfish Encryption
 > #### Brief Introduction
+>       Blow fish is a rather unique encryption methods, it is said to be one of the 
+>           fastest in regards to encryption and decryption but it is not without any
+>           downfalls as well. Blowfish requires a rather large amount of prossesing
+>           to be done when creating a key. But with that being said in situations where
+>           a key is not being created often it is fairly widly used.
+>       Blowfish was discoved in 1993 as a replacement for DES which at the time was suffering
+>           from its clear vulnerabilities.
+>       Still it appears lower on this list because it is rated as inferior to AES, but as
+>           each of these encryptions there is a time and a place where this should be used
 >      
+> #### Speeds
+> > ![Mixed Columns](imgs/Blowfish-Encryption-Speeds.png)
+> > ![Mixed Columns](imgs/Blowfish-Decryption-Speeds.png)
 
 
 ## Comparing Encryption

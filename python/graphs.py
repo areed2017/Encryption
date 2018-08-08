@@ -47,11 +47,41 @@ def graph_data(method, graph, color, label, _range):
     graph.plot(byte_size, time_took, color=color, label=label, linewidth=1)
 
 
+def graph_data2(encryption, decryption, graph, color, label, _range):
+    byte_size = []
+    time_took = []
+
+    for i in range(5, _range):
+        bytes_in_text = 0
+        text = ""
+        if str(i) in text:
+            text = texts[str(i)]
+        while bytes_in_text <= i:
+            text += choice(string.ascii_letters)
+            bytes_in_text = len(text.encode('utf-8'))
+        texts[str(i)] = text
+
+        avg_time = 0
+        text = encryption(text)
+        for j in range(100):
+            start = timer()
+            decryption(text)
+            end = timer()
+            avg_time += (end - start) * 1000
+        time_elapsed = avg_time / 10
+
+        if time_elapsed > 0 and not is_fluke(time_elapsed, time_took):
+            time_took.append(time_elapsed)
+            byte_size.append(bytes_in_text)
+
+    graph.plot(byte_size, time_took, color=color, label=label, linewidth=1)
+
+
 cycles = 500
 
-aes = MethodAES.MethodAES("This is a test key for aes")
+# aes = MethodAES.MethodAES("This is a test key for aes")
 # graph_data(aes.encrypt_ecb, pyplot, 'r', 'AES-128-ECB', cycles)
-graph_data(aes.encrypt_cbc, pyplot, 'r', 'AES-128-CBC', cycles)
+# graph_data(aes.encrypt_cbc, pyplot, 'r', 'AES-128-CBC', cycles)
 # graph_data(aes.encrypt_cfb, pyplot, 'r', 'AES-128-CFB', cycles)
 # graph_data(aes.encrypt_ctr, pyplot, 'c', 'AES-128-CTR', cycles)
 # graph_data(aes.encrypt_ofb, pyplot, 'm', 'AES-128-OFB', cycles)
@@ -69,16 +99,29 @@ graph_data(aes.encrypt_cbc, pyplot, 'r', 'AES-128-CBC', cycles)
 # pyplot.xlabel('Size In Bytes Of Text Encrypted')
 # pyplot.figure()
 
-des = MethodDES3()
+# des = MethodDES3()
 # graph_data(des.encrypt_ecb, pyplot, 'b', "DES-3-ECB", cycles)
-graph_data(des.encrypt_ecb, pyplot, 'b', "DES-3-CBC", cycles)
-
+# graph_data(des.encrypt_ecb, pyplot, 'g', "DES-3-CBC", cycles)
+# pyplot.title("DES-3 encryption Speeds")
+# pyplot.ylabel('Time In milliseconds Took To Process')
+# pyplot.xlabel('Size In Bytes Of Text Hash')
+# pyplot.legend()
+# pyplot.figure()
 
 blowfish = MethodBlowfish()
-# graph_data(blowfish.encrypt_ecb, pyplot, 'g', 'Blowfish-ECB', cycles)
+graph_data2(blowfish.encrypt_ecb, blowfish.decrypt_ecb, pyplot, 'b', 'Blowfish-ECB', cycles)
+graph_data2(blowfish.encrypt_cbc, blowfish.encrypt_cbc, pyplot, 'g', "Blowfish-CBC", cycles)
+
+pyplot.title("Blowfish Decryption Speeds")
+pyplot.ylabel('Time In milliseconds Took To Process')
+pyplot.xlabel('Size In Bytes Of Text Hash')
+pyplot.legend()
+pyplot.figure()
+
+graph_data(blowfish.encrypt_ecb, pyplot, 'b', 'Blowfish-ECB', cycles)
 graph_data(blowfish.encrypt_cbc, pyplot, 'g', "Blowfish-CBC", cycles)
 
-pyplot.title("CBC Speeds")
+pyplot.title("Blowfish Encryption Speeds")
 pyplot.ylabel('Time In milliseconds Took To Process')
 pyplot.xlabel('Size In Bytes Of Text Hash')
 pyplot.legend()
