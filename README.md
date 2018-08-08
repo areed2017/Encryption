@@ -1,4 +1,4 @@
-Encryption
+Cryptography
 ===
 
 ###Symmetric vs Asymmetric Systems
@@ -82,6 +82,8 @@ Encryption
 >            > The Row keys that where dirived from the original key are XOR'ed with the state array
 >
 >
+> ![Mixed Columns](imgs/AES-Encryption-Speeds.png)
+>
 > ##### Mixed Columns
 > ![Mixed Columns](imgs/mixcolumn.gif)
              
@@ -135,6 +137,8 @@ Encryption
 > >                 b^(exponent) % modulus = e
 > >
 > >     4. All the bytes are then placed together again and form a new byte array
+> > 
+> > ![Mixed Columns](imgs/RSA-Encryption-Speeds.png)
 >
 > #### Decryption
 > 
@@ -146,6 +150,7 @@ Encryption
 > >
 > >     4. All the bytes are then placed together again and form a new byte array that can then be turned
 > >         turned into a decrypted string
+>
 
 ## Data Encryption Standard ( DES )
 > #### Brief Introduction
@@ -177,11 +182,15 @@ Hashing
 > >         these blocks being the size of 32 bit words.
 > >     Designed by Rivest, who also played a role in creating RSA
 >
+>
 > #### Forms of Message Digest
 > >     Hashed Message Authentication Code (HMAC)
 > >     Message Digest 2 (MD2)
 > >     Message Digest 4 (MD4)
 > >     Message Digest 5 (MD5)
+>
+> #### Hashing Speed
+> > ![Mixed Columns](imgs/MD5-Speeds.png)
 
 ### Secure Hashing Algorithms (SHA)
 > #### Brief Introduction
@@ -197,6 +206,12 @@ Hashing
 > >
 > >     For more infromation about how each differs refer to the chart in the Wikipedia page 
 > >         linked in the Helpful Links section
+> #### Speeds
+> > ![Mixed Columns](imgs/SHA-1-Speeds.png)
+> > ![Mixed Columns](imgs/SHA-224-Speeds.png)
+> > ![Mixed Columns](imgs/SHA-256-Speeds.png)
+> > ![Mixed Columns](imgs/SHA-384-Speeds.png)
+> > ![Mixed Columns](imgs/SHA-512-Speeds.png)
 
 Helpful Links
 ===
