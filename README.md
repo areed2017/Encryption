@@ -165,10 +165,22 @@ Cryptography
 ## Data Encryption Standard 3( DES3 )
 > #### Brief Introduction
 >  
-    
+> #### Speeds
+> > ![Mixed Columns](imgs/DES3--Encryption-Speeds.png)
+> > ![Mixed Columns](imgs/DES3--Decryption-Speeds.png)
+
 ## Blowfish Encryption
 > #### Brief Introduction
 >      
+
+
+## Comparing Encryption
+> #### Brief Introduction
+>      
+> #### Speeds
+> > ![Mixed Columns](imgs/Encryption-Speeds.png)
+> > ![Mixed Columns](imgs/ECB-Speeds.png)
+> > ![Mixed Columns](imgs/CBC-Speeds.png)
 
 
 Hashing
