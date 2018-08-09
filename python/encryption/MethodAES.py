@@ -108,8 +108,7 @@ class MethodAES:
         decrypted = remove_padding(decrypted)
         return decrypted
 
-    @staticmethod
-    def test_all():
+    def test_all(self):
         line_break = "\n=============================MODE=============================\n"
         text = raw_input("Text to encrypt: ")  # "This is a confidential string"
         key = raw_input("Key for encryption: ")  # "key"

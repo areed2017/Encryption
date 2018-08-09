@@ -1,26 +1,29 @@
 Cryptography
 ===
 
+
 ###Symmetric vs Asymmetric Systems
+
 > ####Brief Introduction
 >       Symmetric and Asymmetric refer to the keys used in the algorithm.
 >    
 >    
->       Symmetric - for all a, b in X if a is related to b then b is related to a.
->       Asymmetric - for every a, b pair in X if a is related to b then b is not related to a.
+>       Symmetric - For all a, b in X if a is related to b then b is related to a.
+>       Asymmetric - For every a, b pair in X if a is related to b then b is not related to a.
 
 ### Block vs Stream Encryption
+
 > ####Brief Introduction
 >       Block Encryption- When the data being encrypted is placed into blocks of a declared size
->           and padded to fill the room left avalible.
->       Strean Encryption- When the data being encrypted is in a one to one relation with with the 
+>           and padded to fill the room left available.
+>       Stream Encryption- When the data being encrypted is in a one to one relation with with the 
 >           output encrypted text.
 >       
 >       Block encryptions are better when being attact in the form of insertion. If a symbol is inserted
 >           the entire block will be corrupted, and depending on the mode, as for the rest of the blocks
 >           This can also be a downfall because if one character gets currupted the same will happen and 
 >           all the data is lost.
->      Block encryptions are also slower since they typically have to wait for all the data to be blocked 
+>       Block encryptions are also slower since they typically have to wait for all the data to be blocked 
 >           before begining as well the time spent on encrypting the padded data that wouldnt be there 
 >           otherwise.
 >       
@@ -29,24 +32,72 @@ Cryptography
 >       However stream encryption is not as secure as blocked since it is susceptible to insertion 
 >           and modification attacks
 
+### Modes of Operation
+
+> ####Brief Introduction
+>       Modes of Operation are mostly seen within block encryptions. there are five
+>           modes including; 
+>                 > Electronic Code Book ( ECB )
+>                 > Cipher Block Chaining ( CBC )
+>                 > Cipher Feedback ( CFB )
+>                 > Output Feedback ( OFB )
+>                 > Counter ( CTR )
+>
+> #### Electronic Code Book
+>       ECB is one of the simplest modes, it reqires nothing more than the basics.
+>           it does not support an intitial vector. With that being said it is also
+>           the least safe modes since attackers can build up what is called a codebook
+>           which is just a one to one map from encrypted text to decrypted text.
+>        
+> #### Cipher Block Chaining
+>       CBC is easly put as, "A chain of encryption." Each block is used for the next
+>           block as a key that XOR'ed with the plain text of that block. In order for
+>           this to work though a initial vector is requred to be used as the first "block"
+>           that will be XOR'ed with the true first block. For this to work properly the 
+>           initial vector has to be discussed between the encryptor and the decryptor.
+>
+
 ### Advanced Encryption Standard ( AES )
 
 > ####Brief Introduction
 >
->     Encryption type: Symmetric
->     Original name: Rijndael ( dutch heritage )
+>       Encryption type: Symmetric
+>       Original name: Rijndael ( dutch heritage )
 >    
->     There are 3 Basic forms of aes;
->        > AES-128 which has 11 rounds
->        > AES-192 which has 13 rounds
->        > AES-256 which has 15 rounds
->    
->     There is then 5 different modes to encrypt with;
->         > Electronic Code Book ( ECB )
->         > Cipher Block Chaining ( CBC )
->         > Cipher Feedback ( CFB )
->         > Output  Feedback ( OFB )
->         > Counter ( CTR )
+>       There are 3 Basic forms of aes;
+>          > AES-128 which has 10 rounds and 11 round keys
+>          > AES-192 which has 12 rounds and 13 round keys
+>          > AES-256 which has 14 rounds and 15 round keys
+>
+>       Each has an aditional round key to store the origional key itself
+>
+>       The State Array - When something refers to the block in a block encryption this is
+>           typically what they are refering to. It is a array that is normally shown as a
+>           two dimentional array and it is where the plain text is initially placed when 
+>           recieved and furthermore acted on proceeding that step. In AES encryption it is
+>           the center focus of the process.
+>
+>       The Substitution box - Often refered to as an s-box, it is without arguement the easiest
+>           part of AES encryption. An s-box is just a map from one byte to another byte. Normally
+>           we see thing like ROT followed by a integer from 1-25. ROT just means rotate and the 
+>           number refers to the amount of places. Simply put if you have an 'A' and apply ROT1 to it
+>           you get 'B' likewise if you have 'b' and apply ROT5 to it you get 'g'
+>       
+>       Round Constant - Rijndael key schedule is what defines what the round constant is with AES.
+>           Often you will see it abreviated as 'rcon'. The rcon for AES is defined using finite numbers
+>           which is a whole seperate topic, the only ones we need to know are 1 through 10 and we get
+>           first 7 from the expression 2^(x), and the next ones are 8 -> 27, 9 -> 54, and 10->108.
+>
+>       Round Keys - This is the part where the key comes into place with AES encryption. There are x
+>           amount of round keys where x is defined by the form of aes you are using. To have an example
+>           well say we have a AES-128 equivelent key and we have 10 rounds that we need keys for. The first
+>           step is to break the key into 4 32 but words and place them in the first key. For the next 10
+>           10 keys we need to derive we will use the following formulas;
+>                   > R(x) = x rotated right 8 bits
+>                   > Key(i):W(0) = key(i-1):W(0) XOR R( key(i-1):W3 ) XOR Rcon[i]
+>                   > key(i):W(i) = key(i-1):W(i) XOR Key(i):W(i-1)
+>           after applying all of these equations to each 32 bit word that each row contains then the round 
+>           keys are ready for use.
 >
 > #### Basic Encryption Steps
 >
@@ -82,7 +133,8 @@ Cryptography
 >            > The Row keys that where dirived from the original key are XOR'ed with the state array
 >
 >
-> ![Mixed Columns](imgs/AES-Encryption-Speeds.png)
+> ![Mixed Columns](imgs/aes/encryption/All.png)
+> ![Mixed Columns](imgs/aes/decryption/All.png)
 >
 > ##### Mixed Columns
 > ![Mixed Columns](imgs/mixcolumn.gif)
@@ -92,10 +144,11 @@ Cryptography
 > #### Brief Introduction
 >
 >       RSA centers its focus around 2 major numbers, one called the modulus and the other called the exponent
->           when one see key's that look look like a jumbled mess it's due to the fact that
->           it is in a standard for with some type of encoding, but past that those peices of
->           data reside inside that cryptic text
->       RSA is a stream encryption
+>           when a key is normally seen it will look like a jumbled mess. This is due to the fact that
+>           it's in a standardized form with some type of encoding, but beyond that it holds those two numbers
+>       RSA is defined as a stream encryption, unlike its counterpart AES which is a block encryption
+>       RSA is also defined as a ASymmetric encryption since it requires the use of two keys, public and private.
+>       
 >
 > ####Key Generation
 >      
@@ -108,12 +161,11 @@ Cryptography
 > >     2. From these two numbers we can compute the modulus (n)
 > >             n = p * q 
 > >     
-> >     3. Following this the Euler's Totient Function is used to find the a number for 
-> >         length of the set of numbers that are relivily prime to n. This is denoted as
-> >         φ(n).
+> >     3. Following this the Euler's Totient Function is used to find the length of the set 
+> >         containing no common factors with n. This is denoted as φ(n).
 > >             φ(n) = ( q - 1 ) * ( p - 1 )
 > > 
-> >     4. lastly we find the exponent for the private key
+> >     4. Lastly we find the exponent for the private key
 > >             exponent = x where 1 < x < φ(n) and x is coprime to to the modulus
 > > 
 > > ##### Public Key Generation:
@@ -124,8 +176,8 @@ Cryptography
 > >             ( d * exponent ) % φ(n) = 1
 > >     
 > >     3. Using the exponent from the private key we can solve for d, there will
-> >         be multiple anwers for this where the range is infinit. Any of the possiblities
-> >         may be choosen.
+> >         be multiple answers for this where the range is infinit. Any of the possibilities 
+> >         may be chosen.
 > >
 > >     4. Once choosen that number is set to the exponent of the public key.
 >
@@ -133,12 +185,12 @@ Cryptography
 > 
 > >     1. The public key is obtained
 > >
-> >     3. Each byte(b) is then put into the following equation where e is its encrypted value
+> >     2. Each byte(b) is then put into the following equation where e is its encrypted value
 > >                 b^(exponent) % modulus = e
 > >
-> >     4. All the bytes are then placed together again and form a new byte array
+> >     3. All the bytes are then placed together again and form a new byte array
 > > 
-> > ![Mixed Columns](imgs/RSA-Encryption-Speeds.png)
+> > ![Mixed Columns](imgs/rsa/encryption/All.png)
 >
 > #### Decryption
 > 
@@ -170,8 +222,8 @@ Cryptography
 >           time. making the 56 bit key turn into a 168-bit key equivelent.
 >  
 > #### Speeds
-> > ![Mixed Columns](imgs/DES-3-Encryption-Speeds.png)
-> > ![Mixed Columns](imgs/DES-3-Decryption-Speeds.png)
+> > ![Mixed Columns](imgs/des3/encryption/All.png)
+> > ![Mixed Columns](imgs/des3/decryption/All.png)
 
 ## Blowfish Encryption
 > #### Brief Introduction
@@ -186,17 +238,18 @@ Cryptography
 >           each of these encryptions there is a time and a place where this should be used
 >      
 > #### Speeds
-> > ![Mixed Columns](imgs/Blowfish-Encryption-Speeds.png)
-> > ![Mixed Columns](imgs/Blowfish-Decryption-Speeds.png)
+> > ![Mixed Columns](imgs/blowfish/encryption/All.png)
+> > ![Mixed Columns](imgs/blowfish/decryption/All.png)
 
 
 ## Comparing Encryption
-> #### Brief Introduction
->      
 > #### Speeds
-> > ![Mixed Columns](imgs/Encryption-Speeds.png)
-> > ![Mixed Columns](imgs/ECB-Speeds.png)
-> > ![Mixed Columns](imgs/CBC-Speeds.png)
+> > ![Mixed Columns](imgs/comparing/encryption/All.png)
+> > ![Mixed Columns](imgs/comparing/decryption/All.png)
+> > ![Mixed Columns](imgs/comparing/encryption/ECB.png)
+> > ![Mixed Columns](imgs/comparing/decryption/ECB.png)
+> > ![Mixed Columns](imgs/comparing/encryption/CBC.png)
+> > ![Mixed Columns](imgs/comparing/decryption/CBC.png)
 
 
 Hashing
@@ -218,7 +271,7 @@ Hashing
 > >     Message Digest 5 (MD5)
 >
 > #### Hashing Speed
-> > ![Mixed Columns](imgs/MD5-Speeds.png)
+> > ![Mixed Columns](imgs/md5/md5.png)
 
 ### Secure Hashing Algorithms (SHA)
 > #### Brief Introduction
@@ -235,11 +288,11 @@ Hashing
 > >     For more infromation about how each differs refer to the chart in the Wikipedia page 
 > >         linked in the Helpful Links section
 > #### Speeds
-> > ![Mixed Columns](imgs/SHA-1-Speeds.png)
-> > ![Mixed Columns](imgs/SHA-224-Speeds.png)
-> > ![Mixed Columns](imgs/SHA-256-Speeds.png)
-> > ![Mixed Columns](imgs/SHA-384-Speeds.png)
-> > ![Mixed Columns](imgs/SHA-512-Speeds.png)
+> > ![Mixed Columns](imgs/sha/sha1.png)
+> > ![Mixed Columns](imgs/sha/sha224.png)
+> > ![Mixed Columns](imgs/sha/sha256.png)
+> > ![Mixed Columns](imgs/sha/sha384.png)
+> > ![Mixed Columns](imgs/sha/sha512.png)
 
 Helpful Links
 ===
@@ -249,6 +302,9 @@ Helpful Links
 >  
 > #### Block vs Stream Encryption
 > > [Slides detailing Block vs Stream](https://www.cs.utexas.edu/~byoung/cs361/lecture45.pdf)
+>
+> #### Modes of Operation
+> > [Slides with information about block encryption](https://www.cs.columbia.edu/~smb/classes/s09/l05.pdf)
 >
 > #### AES Encryption
 > > [The Process](http://etutorials.org/Networking/802.11+security.+wi-fi+protected+access+and+802.11i/Appendixes/Appendix+A.+Overview+of+the+AES+Block+Cipher/Steps+in+the+AES+Encryption+Process/)
@@ -267,13 +323,21 @@ Helpful Links
 > >
 > > [Background](https://searchsecurity.techtarget.com/definition/Data-Encryption-Standard)
 >
+> > [The Process Of DES](http://page.math.tu-berlin.de/~kant/teaching/hess/krypto-ws2006/des.htm)
+>
 > #### DES3 Encryption
-> > [Link Here]()
+> > [NIST Paper from 2012, Everything you need to know](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-67r1.pdf)
+>
+> > [NIST Update Regarding Tripple DES](https://csrc.nist.gov/News/2017/Update-to-Current-Use-and-Deprecation-of-TDEA)
+>
+> > [NIST Overview of Triple DES](https://csrc.nist.gov/projects/block-cipher-techniques)
 >
 > #### Blowfish Encryption
-> > [Everything about Blowfish](https://www.embedded.com/design/configurable-systems/4024599/Encrypting-data-with-the-Blowfish-algorithm)
+> > [Everything About Blowfish](https://www.embedded.com/design/configurable-systems/4024599/Encrypting-data-with-the-Blowfish-algorithm)
+>
+> > [Further Information Regarding Blowfish](http://www.splashdata.com/splashid/blowfish.htm)
 >
 > #### Hashing
 > > [Wikipedia](https://en.wikipedia.org/wiki/Secure_Hash_Algorithms)
 > >
-> > [Extra Infromation about hashing](https://www.sans.edu/cyber-research/security-laboratory/article/hash-functions)
+> > [Extra Information about hashing](https://www.sans.edu/cyber-research/security-laboratory/article/hash-functions)
