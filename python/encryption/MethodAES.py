@@ -36,12 +36,13 @@ class MethodAES:
         aes = AES.new(key, AES.MODE_CBC, iv)
         text = pad(text, 16)
         encrypted = aes.encrypt(text)
-        return base64.b64encode(iv + encrypted)
+
+        return base64.b64encode(iv)[0:22] + base64.b64encode(encrypted)
 
     def decrypt_cbc(self, text):
         key = hashlib.sha256(self.key.encode("utf-8")).digest()
-        text = base64.b64decode(text)
-        iv = text[0:AES.block_size]
+        iv = base64.b64decode(text[0:22] + "==")
+        text = base64.b64decode(text[22:len(text)])
         text = text.replace(iv, "")
         aes = AES.new(key, AES.MODE_CBC, iv)
         decrypted = aes.decrypt(text)
@@ -114,7 +115,16 @@ class MethodAES:
         key = raw_input("Key for encryption: ")  # "key"
         iv = pad("hard code", 16)
 
-        aes = MethodAES("key")
+        aes = MethodAES("test")
+        print(line_break.replace("MODE", "Mode CBC With Random Initial Vector"))
+        for i in range(3):
+            encrypted = aes.encrypt_cbc(text)
+            print("Encrypted: " + encrypted)
+            print("Encrypted Length: " + str(len(encrypted)))
+            print("Decrypted: " + aes.decrypt_cbc(encrypted))
+            print("")
+
+        quit()
 
         print("Given;\n\t-key\t\t\t\t'" + str(key) + "'\n\t-Text\t\t\t\t'" + str(
             text) + "'\n\t-Initial Vector\t\t'" + iv + "'")
