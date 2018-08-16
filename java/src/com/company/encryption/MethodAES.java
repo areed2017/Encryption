@@ -16,7 +16,6 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 import static com.company.encryption.Encryption.getBytes;
-import static com.company.encryption.Encryption.getString;
 import static java.lang.System.out;
 import static java.util.logging.Level.SEVERE;
 
@@ -126,6 +125,7 @@ public class MethodAES {
         }
         return null;
     }
+
 
     public static String pad(String text){
         int numberOfBlankSpaces = BUFFER_SIZE - text.length() % BUFFER_SIZE;

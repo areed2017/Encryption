@@ -2,9 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>AES Encryption</title>
+    <script src="interactive_encrypt.js" ></script>
+    <script src="AES.js" ></script>
+    <script src="StateArray.js" ></script>
+    <script src="RoundKeys.js" ></script>
 </head>
+<style>
+    #body {
+        height: 500px;
+        width: 70%;
+    }
+    #page {
+        width: 100%;
+    }
+</style>
 <body>
-$END$
+
+
+<div id="page" align="center">
+    <h1>Input For AES Encryption</h1>
+    <br/>
+
+    <table>
+        <tr>
+            <td><label for="input">Input</label></td>
+            <td colspan="2"><input style="width:100%" id="input" value="abcdefghijklmnopqrstuvwxyz" /></td>
+        </tr>
+        <tr>
+            <td><label for="key">Key</label></td>
+            <td colspan="2"><input style="width:100%" id="key" value="16 bit key------" /></td>
+        </tr>
+        <tr>
+            <td><label for="iv">Initial Vector</label></td>
+            <td colspan="2"><input style="width:100%" id="iv" value="" /></td>
+        </tr>
+        <tr>
+            <td><button onclick="exec()" type="submit">View Rundown</button></td>
+            <td><button onclick="exec_ecb()" type="submit">ECB Encrypt And Decrypt</button></td>
+            <td><button onclick="exec_cbc()" type="submit">CBC Encrypt And Decrypt</button></td>
+        </tr>
+    </table>
+
+    <div id="body" align="center">
+    </div>
+</div>
+
+
 </body>
 </html>
