@@ -56,6 +56,26 @@ class StateArray{
         this.row_shift()
     }
 
+    mixColumns() {
+
+        let mix = [
+            [2,3,1,1],
+            [1,2,3,1],
+            [1,1,2,3],
+            [3,1,1,2],
+        ]
+
+        let state_arr_cpy = this.state_arr.slice()
+
+        console.log(state_arr_cpy)
+        for(let i = 1; i < bytes_per_row; i++){
+            for(let j = 0; j < bytes_per_row; j++){
+                state_arr_cpy[index(i,j)] = state_arr_cpy[index(i, j)] * mix[index(i, j)]
+            }
+        }
+        console.log(state_arr_cpy)
+    }
+
     round_xor(round_keys) {
 
         for(let i = 0; i < bytes_per_row; i++){

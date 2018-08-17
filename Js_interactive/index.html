@@ -5,6 +5,7 @@
     <title>AES Encryption</title>
     <script src="interactive_encrypt.js" ></script>
     <script src="AES.js" ></script>
+    <script src="RSA.js" ></script>
     <script src="StateArray.js" ></script>
     <script src="RoundKeys.js" ></script>
 </head>
@@ -21,33 +22,82 @@
 
 
 <div id="page" align="center">
-    <h1>Input For AES Encryption</h1>
-    <br/>
+    <button onclick="showAES()">AES</button>
+    <button onclick="showRSA()">RSA</button>
+    <div id="aes" style="display: block">
+        <h1>Input For AES Encryption</h1>
+        <br/>
 
-    <table>
-        <tr>
-            <td><label for="input">Input</label></td>
-            <td colspan="2"><input style="width:100%" id="input" value="abcdefghijklmnopqrstuvwxyz" /></td>
-        </tr>
-        <tr>
-            <td><label for="key">Key</label></td>
-            <td colspan="2"><input style="width:100%" id="key" value="16 bit key------" /></td>
-        </tr>
-        <tr>
-            <td><label for="iv">Initial Vector</label></td>
-            <td colspan="2"><input style="width:100%" id="iv" value="" /></td>
-        </tr>
-        <tr>
-            <td><button onclick="exec()" type="submit">View Rundown</button></td>
-            <td><button onclick="exec_ecb()" type="submit">ECB Encrypt And Decrypt</button></td>
-            <td><button onclick="exec_cbc()" type="submit">CBC Encrypt And Decrypt</button></td>
-        </tr>
-    </table>
+        <table>
+            <tr>
+                <td><label for="input">Input</label></td>
+                <td colspan="2"><input style="width:100%" id="input" value="abcdefghijklmnopqrstuvwxyz" /></td>
+            </tr>
+            <tr>
+                <td><label for="key">Key</label></td>
+                <td colspan="2"><input style="width:100%" id="key" value="16 bit key------" /></td>
+            </tr>
+            <tr>
+                <td><label for="iv">Initial Vector</label></td>
+                <td colspan="2"><input style="width:100%" id="iv" value="" /></td>
+            </tr>
+            <tr>
+                <td><button onclick="exec()" type="submit">View Rundown</button></td>
+                <td><button onclick="exec_ecb()" type="submit">ECB Encrypt And Decrypt</button></td>
+                <td><button onclick="exec_cbc()" type="submit">CBC Encrypt And Decrypt</button></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="rsa" style="display: none">
+        <h1>Input For RSA Encryption</h1>
+        <br/>
+
+        <table>
+            <tr>
+                <td><label for="rsa_input">Input</label></td>
+                <td colspan="2"><input style="width:100%" id="rsa_input" value="10" /></td>
+            </tr>
+            <tr>
+                <td><label for="mod">Modulus</label></td>
+                <td colspan="2"><input style="width:100%" id="mod" value="" /></td>
+            </tr>
+            <tr>
+                <td><label for="public_exponent">Public Key Exponent</label></td>
+                <td colspan="2"><input style="width:100%" id="public_exponent" value="" /></td>
+            </tr>
+            <tr>
+                <td><label for="private_exponent">Private Key Exponent</label></td>
+                <td colspan="2"><input style="width:100%" id="private_exponent" value="" /></td>
+            </tr>
+            <tr>
+                <td><button onclick="exec_mod_and_exp()" type="submit">View Rundown</button></td>
+                <td><button onclick="exec_rsa_keys()" type="submit">Generate keys</button></td>
+                <td><button onclick="exec_rsa()" type="submit">Encrypt % Decrypt</button></td>
+            </tr>
+        </table>
+    </div>
 
     <div id="body" align="center">
     </div>
 </div>
 
+<script>
+    function showAES(){
+        let aes = document.getElementById("aes");
+        let rsa = document.getElementById("rsa");
+
+        aes.style.display = "block"
+        rsa.style.display = "none"
+    }
+    function showRSA(){
+        let aes = document.getElementById("aes");
+        let rsa = document.getElementById("rsa");
+
+        aes.style.display = "none"
+        rsa.style.display = "block"
+    }
+</script>
 
 </body>
 </html>

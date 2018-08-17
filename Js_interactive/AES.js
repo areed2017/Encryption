@@ -26,6 +26,7 @@ class AES {
 
             state_arr.rot13()
             state_arr.row_shift()
+            state_arr.mixColumns()
             state_arr.round_xor(round_keys)
 
             return state_arr.getEncryptedString()
