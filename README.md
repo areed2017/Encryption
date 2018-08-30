@@ -1,10 +1,9 @@
 Cryptography
 ===
 
+### Symmetric vs Asymmetric Systems
 
-###Symmetric vs Asymmetric Systems
-
-> ####Brief Introduction
+> #### Brief Introduction
 >       Symmetric and Asymmetric refer to the keys used in the algorithm.
 >    
 >    
@@ -13,7 +12,7 @@ Cryptography
 
 ### Block vs Stream Encryption
 
-> ####Brief Introduction
+> #### Brief Introduction
 >       Block Encryption- When the data being encrypted is placed into blocks of a declared size
 >           and padded to fill the room left available.
 >       Stream Encryption- When the data being encrypted is in a one to one relation with with the 
@@ -34,7 +33,7 @@ Cryptography
 
 ### Modes of Operation
 
-> ####Brief Introduction
+> #### Brief Introduction
 >       Modes of Operation are mostly seen within block encryptions. there are five
 >           modes including; 
 >                 > Electronic Code Book ( ECB )
@@ -59,7 +58,7 @@ Cryptography
 
 ### Advanced Encryption Standard ( AES )
 
-> ####Brief Introduction
+> #### Brief Introduction
 >
 >       Encryption type: Symmetric
 >       Original name: Rijndael ( dutch heritage )
@@ -125,16 +124,16 @@ Cryptography
 >                    Row 4 is roteated right by 3 bytes
 >                        
 >        4. Mix Columns
->            > Mix columns is the process that creates a new column in the state array
->            > This Column is created in a linear algebra equation
+>            > Mix columns is the process that takes the state array and applys a linear 
+>               algebra equation to create a new state array.
 >     
 >        5. Apply Row Keys
 >            > This is where the key is applied to the state array
 >            > The Row keys that where dirived from the original key are XOR'ed with the state array
 >
 >
-> ![Mixed Columns](imgs/aes/encryption/All.png)
-> ![Mixed Columns](imgs/aes/decryption/All.png)
+> ![AES All Encryption](imgs/aes/encryption/All.png)
+> ![AES All Decryption](imgs/aes/decryption/All.png)
 >
 > ##### Mixed Columns
 > ![Mixed Columns](imgs/mixcolumn.gif)
@@ -150,7 +149,7 @@ Cryptography
 >       RSA is also defined as a ASymmetric encryption since it requires the use of two keys, public and private.
 >       
 >
-> ####Key Generation
+> #### Key Generation
 >      
 >       In order to encrypt anything in RSA encryption keys are required, due to its asymmetric
 >           nature. The first key to be generated is the private key.
@@ -190,7 +189,7 @@ Cryptography
 > >
 > >     3. All the bytes are then placed together again and form a new byte array
 > > 
-> > ![Mixed Columns](imgs/rsa/encryption/All.png)
+> > ![RSA Encryption](imgs/rsa/encryption/All.png)
 >
 > #### Decryption
 > 
@@ -222,8 +221,8 @@ Cryptography
 >           time. making the 56 bit key turn into a 168-bit key equivelent.
 >  
 > #### Speeds
-> > ![Mixed Columns](imgs/des3/encryption/All.png)
-> > ![Mixed Columns](imgs/des3/decryption/All.png)
+> > ![3DES Encryption](imgs/des3/encryption/All.png)
+> > ![3DES Decryption](imgs/des3/decryption/All.png)
 
 ## Blowfish Encryption
 > #### Brief Introduction
@@ -238,18 +237,18 @@ Cryptography
 >           each of these encryptions there is a time and a place where this should be used
 >      
 > #### Speeds
-> > ![Mixed Columns](imgs/blowfish/encryption/All.png)
-> > ![Mixed Columns](imgs/blowfish/decryption/All.png)
+> > ![Blowfish Encryption](imgs/blowfish/encryption/All.png)
+> > ![Blowfish Decryption](imgs/blowfish/decryption/All.png)
 
 
 ## Comparing Encryption
 > #### Speeds
-> > ![Mixed Columns](imgs/comparing/encryption/All.png)
-> > ![Mixed Columns](imgs/comparing/decryption/All.png)
-> > ![Mixed Columns](imgs/comparing/encryption/ECB.png)
-> > ![Mixed Columns](imgs/comparing/decryption/ECB.png)
-> > ![Mixed Columns](imgs/comparing/encryption/CBC.png)
-> > ![Mixed Columns](imgs/comparing/decryption/CBC.png)
+> > ![Encryption-Everything](imgs/comparing/encryption/All.png)
+> > ![Decryption-Everything](imgs/comparing/decryption/All.png)
+> > ![ECB-Encryption-Everything](imgs/comparing/encryption/ECB.png)
+> > ![ECB-Decryption-Everything](imgs/comparing/decryption/ECB.png)
+> > ![CBC-Encryption-Everything](imgs/comparing/encryption/CBC.png)
+> > ![CBC-Decryption-Everything](imgs/comparing/decryption/CBC.png)
 
 
 Hashing
@@ -271,7 +270,7 @@ Hashing
 > >     Message Digest 5 (MD5)
 >
 > #### Hashing Speed
-> > ![Mixed Columns](imgs/md5/md5.png)
+> > ![MD5](imgs/md5/md5.png)
 
 ### Secure Hashing Algorithms (SHA)
 > #### Brief Introduction
@@ -288,11 +287,11 @@ Hashing
 > >     For more infromation about how each differs refer to the chart in the Wikipedia page 
 > >         linked in the Helpful Links section
 > #### Speeds
-> > ![Mixed Columns](imgs/sha/sha1.png)
-> > ![Mixed Columns](imgs/sha/sha224.png)
-> > ![Mixed Columns](imgs/sha/sha256.png)
-> > ![Mixed Columns](imgs/sha/sha384.png)
-> > ![Mixed Columns](imgs/sha/sha512.png)
+> > ![SHA-1](imgs/sha/sha1.png)
+> > ![SHA-224](imgs/sha/sha224.png)
+> > ![SHA-256](imgs/sha/sha256.png)
+> > ![SHA-384](imgs/sha/sha384.png)
+> > ![SHA-512](imgs/sha/sha512.png)
 
 Helpful Links
 ===
@@ -328,7 +327,7 @@ Helpful Links
 > #### DES3 Encryption
 > > [NIST Paper from 2012, Everything you need to know](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-67r1.pdf)
 >
-> > [NIST Update Regarding Tripple DES](https://csrc.nist.gov/News/2017/Update-to-Current-Use-and-Deprecation-of-TDEA)
+> > [NIST Update Regarding Triple DES](https://csrc.nist.gov/News/2017/Update-to-Current-Use-and-Deprecation-of-TDEA)
 >
 > > [NIST Overview of Triple DES](https://csrc.nist.gov/projects/block-cipher-techniques)
 >
