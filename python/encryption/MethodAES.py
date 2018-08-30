@@ -1,26 +1,26 @@
 import base64
 import hashlib
 
-import Crypto.Random
-from Crypto.Cipher import AES
-from Crypto.Util import Counter
+import Crypto
+from Crypto import AES
+from Crypto import Counter
 
 
 class MethodAES:
+
     def __init__(self, key, iv=None):
         self.key = key
         self.initial_vector = iv
 
     """ MODE ECB """
     def encrypt_ecb(self, text):
-        key = hashlib.sha256(self.key.encode('UTF-8')).digest()
+        key = MethodAES.key(self.key)
+        text = MethodAES.pad(text)
         aes = AES.new(key, AES.MODE_ECB)
-        text = pad(text, 16)
-        encrypted = aes.encrypt(text)
-        return base64.b64encode(encrypted)
+        return MethodAES.encrypt_and_encode(aes, text)
 
     def decrypt_ecb(self, text):
-        key = hashlib.sha256(self.key.encode("utf-8")).digest()
+        key = MethodAES.key(self.key)
         text = base64.b64decode(text)
         aes = AES.new(key, AES.MODE_ECB)
         decrypted = aes.decrypt(text)
@@ -30,17 +30,18 @@ class MethodAES:
     """ MODE CBC """
     def encrypt_cbc(self, text, iv=None):
         if iv is None:
-            iv = Crypto.Random.new().read(AES.block_size)
+            iv = AIOCrypto.Random.new().read(AES.block_size)
 
-        key = hashlib.sha256(self.key.encode('UTF-8')).digest()
+        key = MethodAES.key(self.key)
+        text = MethodAES.pad(text)
         aes = AES.new(key, AES.MODE_CBC, iv)
-        text = pad(text, 16)
+
         encrypted = aes.encrypt(text)
 
         return base64.b64encode(iv)[0:22] + base64.b64encode(encrypted)
 
     def decrypt_cbc(self, text):
-        key = hashlib.sha256(self.key.encode("utf-8")).digest()
+        key = MethodAES.key(self.key)
         iv = base64.b64decode(text[0:22] + "==")
         text = base64.b64decode(text[22:len(text)])
         text = text.replace(iv, "")
@@ -51,15 +52,16 @@ class MethodAES:
 
     """ MODE CTR """
     def encrypt_ctr(self, text):
-        key = hashlib.sha256(self.key.encode('UTF-8')).digest()
+        key = MethodAES.key(self.key)
+        text = MethodAES.pad(text)
+
         iv = Counter.new(128)
         aes = AES.new(key, AES.MODE_CTR, counter=iv)
-        text = pad(text, 16)
-        encrypted = aes.encrypt(text)
-        return base64.b64encode(encrypted)
+
+        return MethodAES.encrypt_and_encode(aes, text)
 
     def decrypt_ctr(self, text):
-        key = hashlib.sha256(self.key.encode("utf-8")).digest()
+        key = MethodAES.key(self.key)
         text = base64.b64decode(text)
         iv = Counter.new(128)
         aes = AES.new(key, AES.MODE_CTR, counter=iv)
@@ -70,16 +72,17 @@ class MethodAES:
     """ MODE CFB """
     def encrypt_cfb(self, text, iv=None):
         if iv is None:
-            iv = Crypto.Random.new().read(AES.block_size)
+            iv = AIOCrypto.Random.new().read(AES.block_size)
 
-        key = hashlib.sha256(self.key.encode('UTF-8')).digest()
+        key = MethodAES.key(self.key)
+        text = MethodAES.pad(text)
+
         aes = AES.new(key, AES.MODE_CFB, iv)
-        text = pad(text, 16)
         encrypted = aes.encrypt(text)
         return base64.b64encode(iv + encrypted)
 
     def decrypt_cfb(self, text):
-        key = hashlib.sha256(self.key.encode("utf-8")).digest()
+        key = MethodAES.key(self.key)
         text = base64.b64decode(text)
         iv = text[0:AES.block_size]
         text = text.replace(iv, "")
@@ -91,16 +94,17 @@ class MethodAES:
     """ MODE OFB """
     def encrypt_ofb(self, text, iv=None):
         if iv is None:
-            iv = Crypto.Random.new().read(AES.block_size)
+            iv = AIOCrypto.Random.new().read(AES.block_size)
 
-        key = hashlib.sha256(self.key.encode('UTF-8')).digest()
+        key = MethodAES.key(self.key)
+        text = MethodAES.pad(text)
+
         aes = AES.new(key, AES.MODE_OFB, iv)
-        text = pad(text, 16)
         encrypted = aes.encrypt(text)
         return base64.b64encode(iv + encrypted)
 
     def decrypt_ofb(self, text):
-        key = hashlib.sha256(self.key.encode("utf-8")).digest()
+        key = MethodAES.key(self.key)
         text = base64.b64decode(text)
         iv = text[0:AES.block_size]
         text = text.replace(iv, "")
@@ -109,7 +113,26 @@ class MethodAES:
         decrypted = remove_padding(decrypted)
         return decrypted
 
-    def test_all(self):
+    """ Static Methods """
+
+    @staticmethod
+    def key(key):
+        return hashlib.sha256(key.encode('UTF-8')).digest()
+
+    @staticmethod
+    def pad(text):
+        return pad(text, 16)
+
+    @staticmethod
+    def encode(text):
+        return base64.b64encode(text)
+
+    @staticmethod
+    def encrypt_and_encode(aes, text):
+        return MethodAES.encode(aes.encrypt(text))
+
+    @staticmethod
+    def test_all():
         line_break = "\n=============================MODE=============================\n"
         text = raw_input("Text to encrypt: ")  # "This is a confidential string"
         key = raw_input("Key for encryption: ")  # "key"

@@ -7,7 +7,7 @@ import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public abstract interface Hash {
+public interface Hash {
 
     class CharacterSet{
         private CharacterSet(){}

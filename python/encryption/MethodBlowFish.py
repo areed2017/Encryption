@@ -46,7 +46,6 @@ class MethodBlowfish:
         decrypted = remove_padding(decrypted)
         return decrypted
 
-
     @staticmethod
     def test_all():
         line_break = "\n=============================MODE=============================\n"
